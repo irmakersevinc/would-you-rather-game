@@ -1,14 +1,62 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
+import { setAuthedUser } from '../actions/authedUser'
+import './login.css'
 
 class Login extends Component {
+    state = {
+        username: "",
+    }
 
+    handleInput = (e) => {
+        e.preventDefault();
+        const {value, name} = e.target
+        console.log("value: "+ value);
+        this.setState({
+            username: value
+        })
+    }
+
+    loginButtonClicked = (e) => {
+        e.preventDefault();
+        const {users,dispatch} = this.props;
+        console.log("users: " + users);
+
+        const {username} = this.state
+        console.log("username: " + username);
+        const user = users.filter( user=> user === username)
+        console.log("user: " + user);
+
+        if(user.length !== 0) {
+            dispatch(setAuthedUser(username))
+            console.log("login")
+        }
+
+    }
     render () {
         return (
-            <div>
-                Hello
+            <div className="app">
+                <div className="login-form">    
+                    <div className="form">
+                        <form onClick={this.loginButtonClicked}>
+                            <div className="input-container">
+                                <label>Username </label>
+                                <input type="text" name="uname" required onChange={this.handleInput}/>
+                            </div>
+                            <div className="button-container">
+                                <button type="submit">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         )
     }
 }
 
-export default Login;
+function mapStateToProps ({users}) {
+    return {
+        users: Object.keys(users)
+    }
+}
+export default connect(mapStateToProps)(Login);
