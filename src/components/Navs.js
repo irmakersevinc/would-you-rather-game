@@ -5,7 +5,7 @@ const Navs = () => {
     return (
       <Nav tabs>
         <NavItem>
-          <NavLink href="/home" active>
+          <NavLink href="/" active>
             Home
           </NavLink>
         </NavItem>

@@ -4,13 +4,11 @@ import Home from "./Home";
 import Navs from "./Navs";
 import NewQuestion from "./NewQuestion";
 import LeaderBoard from "./LeaderBoard";
-
 import { BrowserRouter as Router, Route,Routes } from "react-router-dom";
-
 import { connect } from "react-redux";
 import React, { Component, Fragment } from "react";
 import { handleInitialData } from "../actions/shared";
-import Dashboard from "./Dashboard";
+import ViewPoll from "./ViewPoll";
 
 class App extends Component {
   componentDidMount() {
@@ -22,16 +20,18 @@ class App extends Component {
     return (
       <Router>
         <Fragment>
+          <Navs />
           <div>
             {authedUser === null ? (
               <Login />
             ) : (
               <div>
                 <Routes>
-                  <Route exact path="/"  element={<Navs/>} />
-                  <Route  path="/home"  element={<Home/>} />
+                  <Route exact path="/"  element={<Home/>} />
                   <Route  path="/newQuestion"  element={<NewQuestion/>} />
                   <Route  path="/leaderBoard"  element={<LeaderBoard/>} />
+                  <Route  path='/questions/:question_id'  element={<ViewPoll/>} />
+
                 </Routes>
               </div>
             )}
@@ -44,7 +44,7 @@ class App extends Component {
 
 const mapStateToProps = ({ authedUser }) => {
   return {
-    authedUser,
+    authedUser: authedUser ,
   };
 };
 export default connect(mapStateToProps)(App);

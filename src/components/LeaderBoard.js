@@ -8,4 +8,4 @@ const LeaderBoard = () => {
     )
 }
 
-export default LeaderBoard
+export default LeaderBoard;

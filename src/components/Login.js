@@ -2,10 +2,14 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { setAuthedUser } from '../actions/authedUser'
 import './login.css'
+import PropTypes from 'prop-types'
 
 class Login extends Component {
     state = {
         username: "",
+    }
+    static propTypes = {
+        users: PropTypes.array.isRequired,
     }
 
     handleInput = (e) => {
@@ -31,7 +35,6 @@ class Login extends Component {
             dispatch(setAuthedUser(username))
             console.log("login")
         }
-
     }
     render () {
         return (
