@@ -9,9 +9,10 @@ import {
   CardTitle,
   Input,
   Form,
+  Container,
 } from "reactstrap";
 import { handleAddQuestion } from "../actions/questions";
-import { Link, withRouter } from 'react-router-dom'
+import { Link, withRouter } from "react-router-dom";
 
 class NewQuesion extends Component {
   state = {
@@ -27,14 +28,11 @@ class NewQuesion extends Component {
       optionTwoText: this.state.optionTwo,
       author: this.props.authedUser,
     };
-    console.log(questions);
 
     dispatch(handleAddQuestion(question));
-    console.log(questions);
 
     this.setState({ optionOne: "", optionTwo: "" });
     this.props.history.push("/");
-
   };
 
   handleChange = (e) => {
@@ -42,43 +40,44 @@ class NewQuesion extends Component {
     this.setState(
       {
         [e.target.name]: e.target.value,
-      },
-      () => console.log(this.state)
+      }
     );
   };
 
   render() {
     return (
       <div>
-        <Card>
-          <CardHeader>Create New Question</CardHeader>
-          <CardBody>
-            <CardText> Complete the questions: </CardText>
-            <CardTitle>
-              <strong>Would you rather ..</strong>
-            </CardTitle>
-            <Form onSubmit={this.addQuestion}>
-              <Input
-                type="text"
-                placeholder="Enter Question One Text Here"
-                onChange={this.handleChange}
-                name="optionOne"
-                required
-              />
-              <hr />
-              <p>OR</p>
-              <hr />
-              <Input
-                type="text"
-                placeholder="Enter Question One Text Here"
-                onChange={this.handleChange}
-                name="optionTwo"
-                required
-              />
-              <Button type="submit">Submit</Button>
-            </Form>
-          </CardBody>
-        </Card>
+        <Container>
+          <Card>
+            <CardHeader>Create New Question</CardHeader>
+            <CardBody>
+              <CardText> Complete the questions: </CardText>
+              <CardTitle>
+                <strong>Would you rather ..</strong>
+              </CardTitle>
+              <Form onSubmit={this.addQuestion}>
+                <Input
+                  type="text"
+                  placeholder="Enter Question One Text Here"
+                  onChange={this.handleChange}
+                  name="optionOne"
+                  required
+                />
+                <hr />
+                <p>OR</p>
+                <hr />
+                <Input
+                  type="text"
+                  placeholder="Enter Question One Text Here"
+                  onChange={this.handleChange}
+                  name="optionTwo"
+                  required
+                />
+                <Button style={{marginTop: "20px"}} type="submit">Submit</Button>
+              </Form>
+            </CardBody>
+          </Card>
+        </Container>
       </div>
     );
   }

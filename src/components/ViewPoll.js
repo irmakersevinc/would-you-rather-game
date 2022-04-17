@@ -13,11 +13,10 @@ import {
   FormGroup,
   Input,
   Label,
-  Progress
+  Progress,
 } from "reactstrap";
 import { handleAddAnswer } from "../actions/questions";
 import { Link, withRouter } from "react-router-dom";
-
 class ViewPoll extends Component {
   state = {
     answerText: "",
@@ -61,12 +60,14 @@ class ViewPoll extends Component {
   };
   render() {
     const { questions, users, authedUser, question_id } = this.props;
-    console.log(question_id);
-
     const userOfQuestion = Object.keys(questions).filter(
       (question) => question == question_id
     );
-    console.log(userOfQuestion);
+    const progressOptionOne = questions[question_id].optionOne.votes.length;
+    const progressOptionTwo = questions[question_id].optionTwo.votes.length;
+    const totalVote = progressOptionOne + progressOptionTwo;
+    const percentageOfOptionOne = (100 * progressOptionOne) / totalVote;
+    const percentageOfOptionTwo = (100 * progressOptionTwo) / totalVote;
 
     return (
       <div>
@@ -101,12 +102,13 @@ class ViewPoll extends Component {
                           <Label check>
                             <Input
                               type="radio"
-                              name="optionOne"
-                              value={questions[userOfQuestion].optionOne.text}
-                              checked={
+                              value="optionOne"
+                              //value={questions[userOfQuestion].optionOne.text}
+                              /*checked={
                                 this.state.answerText ===
                                 questions[userOfQuestion].optionOne.text
-                              }
+                              }*/
+                              checked={this.state.answerText === "optionOne"}
                               onChange={this.handleRadioButton}
                             />{" "}
                             {questions[userOfQuestion].optionOne.text}{" "}
@@ -115,12 +117,13 @@ class ViewPoll extends Component {
                           <Label check>
                             <Input
                               type="radio"
-                              name="optionTwo"
-                              value={questions[userOfQuestion].optionTwo.text}
-                              checked={
+                              value="optionTwo"
+                              //value={questions[userOfQuestion].optionTwo.text}
+                              /*checked={
                                 this.state.answerText ===
                                 questions[userOfQuestion].optionTwo.text
-                              }
+                              }*/
+                              checked={this.state.answerText === "optionTwo"}
                               onChange={this.handleRadioButton}
                             />{" "}
                             {questions[userOfQuestion].optionTwo.text}{" "}
@@ -153,29 +156,46 @@ class ViewPoll extends Component {
                         width="120px"
                       />
                     </Col>
-                    <Col sm="5">
+                    <Col sm="6">
                       <h1>Result:</h1>
                       <Card>
                         {questions[question_id].optionOne.votes.includes(
                           authedUser
                         ) ? (
-                          <div>
-                                                      <strong>{questions[question_id].optionOne.text}</strong>
-
-                                  <Progress value="25">25%</Progress>
-
-                          </div>
+                          <Card style={{ backgroundColor: 'red'}} >
+                            <strong>
+                              {questions[question_id].optionOne.text}
+                            </strong>
+                            <Progress value={`${percentageOfOptionOne}`}>{percentageOfOptionOne}%</Progress>
+                            <p>{progressOptionOne} out of {totalVote}</p>
+                          </Card>
                         ) : (
-                          <strong>{questions[question_id].optionTwo.text}</strong>
+                          <Card>
+                            <p>{questions[question_id].optionOne.text}</p>
+                            <Progress value={`${percentageOfOptionOne}`}>{percentageOfOptionOne}%</Progress>
+                            <p>{progressOptionOne} out of {totalVote}</p>
+                          </Card>
                         )}
                       </Card>
                       <Card>
-                        {questions[question_id].optionOne.votes.includes(
+                        {questions[question_id].optionTwo.votes.includes(
                           authedUser
                         ) ? (
-                          <p>{questions[question_id].optionTwo.text}</p>
+                          <Card style={{ backgroundColor: 'red'}}>
+                            <strong>
+                              {questions[question_id].optionTwo.text}
+                            </strong>
+                            <Progress value={`${percentageOfOptionTwo}`}>{percentageOfOptionTwo}%</Progress>
+                            <p>{progressOptionTwo} out of {totalVote}</p>
+
+                          </Card>
                         ) : (
-                          <p>{questions[question_id].optionOne.text}</p>
+                          <Card>
+                            <p>{questions[question_id].optionTwo.text}</p>
+                            <Progress value={`${percentageOfOptionTwo}`}>{percentageOfOptionTwo}%</Progress>
+                            <p>{progressOptionTwo} out of {totalVote}</p>
+
+                          </Card>
                         )}
                       </Card>
                     </Col>

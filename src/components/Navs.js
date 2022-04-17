@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { logoutAuthedUser } from "../actions/authedUser";
+import "./navs.css";
+
 class Navs extends Component {
   handleNavigation = (event) => {
     if (!this.props.user) {
@@ -19,23 +21,38 @@ class Navs extends Component {
     return (
       <div className="nav-container">
         <nav>
-          <NavLink to="/" onClick={this.handleNavigation}>
-            Home
-          </NavLink>
-          <NavLink to="/newQuestion" onClick={this.handleNavigation}>
-            New Question
-          </NavLink>
-          <NavLink to="/leaderBoard" onClick={this.handleNavigation}>
-            Leader Board
-          </NavLink>
-          {user !== null && (
-            <nav>
-              <span>{`Hello, ${user.name}`}</span>
-              <NavLink to="/" onClick={this.logoutUser}>
-                Logout
+          <ul id="ul-nb">
+            <li>
+              <NavLink to="/" onClick={this.handleNavigation}>
+                Home
               </NavLink>
-            </nav>
-          )}
+            </li>
+            <li>
+              <NavLink to="/newQuestion" onClick={this.handleNavigation}>
+                New Question
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink to="/leaderBoard" onClick={this.handleNavigation}>
+                Leader Board
+              </NavLink>
+            </li>
+
+            {user !== null && (
+              <nav>
+  
+                <li>
+                  <NavLink to="/" onClick={this.logoutUser}>
+                    Logout
+                  </NavLink>
+                </li>
+                <li>
+                  <p style={{marginLeft:"50px", marginTop:"10px" }}>{`Hello, ${user.name}`}</p>
+                </li>
+              </nav>
+            )}
+          </ul>
         </nav>
       </div>
     );
