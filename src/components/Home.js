@@ -10,10 +10,9 @@ import {
   Col,
   CardBody,
 } from "reactstrap";
-import sarah from "../assets/avatars/sarahedoImg.png";
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import "./home.css";
 class Home extends Component {
   //const [toggleState,setToggleState] = useState(1);
@@ -34,8 +33,15 @@ class Home extends Component {
   };
 
   render() {
-    const { users, questions } = this.props;
+    const { users, questions, authedUser } = this.props;
     console.log("questions" + JSON.stringify(questions));
+    const unAnsweredQuestions = Object.keys(questions).filter(
+      (question) => !questions[question].optionOne.votes.includes(authedUser) && !questions[question].optionTwo.votes.includes(authedUser)
+    );
+    const answeredQuestions = Object.keys(questions).filter((question) =>
+      questions[question].optionOne.votes.includes(authedUser) || questions[question].optionTwo.votes.includes(authedUser)
+    );
+
     return (
       <div className="container">
         <div className="bloc-tabs">
@@ -69,46 +75,51 @@ class Home extends Component {
             {Object.keys(questions).map((question) => {
               return (
                 <Col sm="20" key={questions[question].id}>
-                  <Card style={{ marginTop: "20px" }}>
-                    <CardHeader>
-                      <strong>
-                        {users[questions[question].author].name} : asks
-                      </strong>
-                    </CardHeader>
-                    <div>
-                      <CardBody>
-                        <Row
-                          style={{
-                            direction: "row",
-                          }}
-                        >
-                          <Col sm="5">
-                            <img
-                              src={sarah}
-                              alt={`Avatar of ${
-                                users[questions[question].author].name
-                              }`}
-                              className="avatar"
-                              width="120px"
-                            />
-                          </Col>
-                          <Col sm="6">
-                            <div>
-                              <CardTitle>
-                                <strong>Would you rather?</strong>
-                              </CardTitle>
-                              <CardText>Would you rather?</CardText>
-                              <Button style={{ width: "100px" }}>
-                                <Link to={`/questions/${questions[question].id}`}>
-                                  View Poll
-                                </Link>
-                              </Button>
-                            </div>
-                          </Col>
-                        </Row>
-                      </CardBody>
-                    </div>
-                  </Card>
+                  {unAnsweredQuestions &&
+                    unAnsweredQuestions.includes(questions[question].id) && (
+                      <Card style={{ marginTop: "20px" }}>
+                        <CardHeader>
+                          <strong>
+                            {users[questions[question].author].name} : asks
+                          </strong>
+                        </CardHeader>
+                        <div>
+                          <CardBody>
+                            <Row
+                              style={{
+                                direction: "row",
+                              }}
+                            >
+                              <Col sm="5">
+                                <img
+                                  src={users[questions[question].author].avatarURL}
+                                  alt={`Avatar of ${
+                                    users[questions[question].author].name
+                                  }`}
+                                  className="avatar"
+                                  width="120px"
+                                />
+                              </Col>
+                              <Col sm="6">
+                                <div>
+                                  <CardTitle>
+                                    <strong>Would you rather?</strong>
+                                  </CardTitle>
+                                  <CardText>Would you rather?</CardText>
+                                  <Button style={{ width: "100px" }}>
+                                    <Link
+                                      to={`/questions/${questions[question].id}`}
+                                    >
+                                      View Poll
+                                    </Link>
+                                  </Button>
+                                </div>
+                              </Col>
+                            </Row>
+                          </CardBody>
+                        </div>
+                      </Card>
+                    )}
                 </Col>
               );
             })}
@@ -120,7 +131,58 @@ class Home extends Component {
                 : "content"
             }
           >
-            <h2>hellele</h2>
+            <hr />
+            {Object.keys(questions).map((question) => {
+              return (
+                <Col sm="20" key={questions[question].id}>
+                  {answeredQuestions &&
+                    answeredQuestions.includes(questions[question].id) && (
+                      <Card style={{ marginTop: "20px" }}>
+                        <CardHeader>
+                          <strong>
+                            {users[questions[question].author].name} : asks
+                          </strong>
+                        </CardHeader>
+                        <div>
+                          <CardBody>
+                            <Row
+                              style={{
+                                direction: "row",
+                              }}
+                            >
+                              <Col sm="5">
+                                <img
+                                  src={users[questions[question].author].avatarURL}
+                                  alt={`Avatar of ${
+                                    users[questions[question].author].name
+                                  }`}
+                                  className="avatar"
+                                  width="120px"
+                                />
+                              </Col>
+                              <Col sm="6">
+                                <div>
+                                  <CardTitle>
+                                    <strong>Would you rather?</strong>
+                                  </CardTitle>
+                                  <CardText>Would you rather?</CardText>
+                                  <Button style={{ width: "100px" }}>
+                                    <Link
+                                      to={`/questions/${questions[question].id}`}
+                                    >
+                                      View Poll
+                                    </Link>
+                                  </Button>
+                                </div>
+                              </Col>
+                            </Row>
+                          </CardBody>
+                        </div>
+                      </Card>
+                    )}
+                </Col>
+              );
+            })}
           </div>
         </div>
       </div>

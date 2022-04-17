@@ -15,9 +15,9 @@ export function handleAddQuestion(question) {
     return(dispatch, getState) => {
         const {authedUser} = getState()
 
-        return saveQuestion({
+        return saveQuestion(
             question
-        })
+        )
         .then((question) => dispatch(addQuestion(question)))
     }
 }
@@ -29,14 +29,12 @@ function addQuestion(question) {
     }
 }
 
-function handleAddAnswer (answer) {
+export function handleAddAnswer (answer) {
     return(dispatch, getState) => {
         const {authedUser} = getState()
 
-        return saveAnswer({
-            answer
-        })
-        .then((answer) => dispatch(addAnswer(answer)))
+        return saveAnswer(answer)
+        .then(() => dispatch(addAnswer(answer)))
     }
 }
 

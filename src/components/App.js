@@ -4,11 +4,12 @@ import Home from "./Home";
 import Navs from "./Navs";
 import NewQuestion from "./NewQuestion";
 import LeaderBoard from "./LeaderBoard";
-import { BrowserRouter as Router, Route,Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route,Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import React, { Component, Fragment } from "react";
 import { handleInitialData } from "../actions/shared";
 import ViewPoll from "./ViewPoll";
+import PageNotFound from "./PageNotFound";
 
 class App extends Component {
   componentDidMount() {
@@ -20,20 +21,19 @@ class App extends Component {
     return (
       <Router>
         <Fragment>
-          <Navs />
+          <Navs authedUser={authedUser}/>
           <div>
             {authedUser === null ? (
               <Login />
             ) : (
-              <div>
-                <Routes>
-                  <Route exact path="/"  element={<Home/>} />
-                  <Route  path="/newQuestion"  element={<NewQuestion/>} />
-                  <Route  path="/leaderBoard"  element={<LeaderBoard/>} />
-                  <Route  path='/questions/:question_id'  element={<ViewPoll/>} />
-
-                </Routes>
-              </div>
+                <Switch>
+                  <Route exact path="/" component={Home}  />
+                  <Route  path="/newQuestion" component={NewQuestion}  /> {/* /add olacak*/}
+                  <Route  path="/leaderBoard" component={LeaderBoard}  />
+                  <Route  path='/questions/:question_id' component={ViewPoll}   />
+                  <Route  path="/login" component={Login}  />
+                  <Route  path="/*" component={PageNotFound}  />
+                </Switch>
             )}
           </div>
         </Fragment>
@@ -44,7 +44,7 @@ class App extends Component {
 
 const mapStateToProps = ({ authedUser }) => {
   return {
-    authedUser: authedUser ,
+    authedUser ,
   };
 };
 export default connect(mapStateToProps)(App);

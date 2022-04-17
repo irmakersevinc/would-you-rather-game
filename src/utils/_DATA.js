@@ -1,8 +1,13 @@
+import sarah from '../assets/avatars/doe.jpg'
+import johndoeImg from '../assets/avatars/johndoeImg.jpg'
+import tylermcginnisImg from '../assets/avatars/tylermcginnisImg.jpg'
+//import johndoeImg from '../assets/avatars/johndoeImg.jpg'
+
 let users = {
     sarahedo: {
       id: 'sarahedo',
       name: 'Sarah Edo',
-      avatarURL: '../assets/avatars/sarahedoImg.png',
+      avatarURL: sarah,
       answers: {
         "8xf0y6ziyjabvozdd253nd": 'optionOne',
         "6ni6ok3ym7mf1p33lnez": 'optionOne',
@@ -14,7 +19,7 @@ let users = {
     tylermcginnis: {
       id: 'tylermcginnis',
       name: 'Tyler McGinnis',
-      avatarURL: '../assets/avatars/tylermcginnis.png',
+      avatarURL: johndoeImg,
       answers: {
         "vthrdm985a262al8qx3do": 'optionOne',
         "xj352vofupe1dqz9emx13r": 'optionTwo',
@@ -24,7 +29,7 @@ let users = {
     johndoe: {
       id: 'johndoe',
       name: 'John Doe',
-      avatarURL: '../assets/avatars/johndoe.png',
+      avatarURL: tylermcginnisImg,
       answers: {
         "xj352vofupe1dqz9emx13r": 'optionOne',
         "vthrdm985a262al8qx3do": 'optionTwo',
@@ -149,6 +154,7 @@ let users = {
   
   export function _saveQuestion (question) {
     return new Promise((res, rej) => {
+
       const authedUser = question.author;
       const formattedQuestion = formatQuestion(question)
   
@@ -170,9 +176,10 @@ let users = {
       }, 1000)
     })
   }
-  
+  //{answerObj: { authedUser, qid, answer }}
   export function _saveQuestionAnswer ({ authedUser, qid, answer }) {
     return new Promise((res, rej) => {
+      
       setTimeout(() => {
         users = {
           ...users,
