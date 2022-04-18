@@ -34,7 +34,8 @@ class Home extends Component {
 
   render() {
     const { users, questions, authedUser } = this.props;
-    console.log("questions" + JSON.stringify(questions));
+    const sortedQuestions = Object.keys(questions).sort((a,b) => questions[b].timestamp - questions[a].timestamp)
+
     const unAnsweredQuestions = Object.keys(questions).filter(
       (question) => !questions[question].optionOne.votes.includes(authedUser) && !questions[question].optionTwo.votes.includes(authedUser)
     );
@@ -72,7 +73,7 @@ class Home extends Component {
             }
           >
             <hr />
-            {Object.keys(questions).map((question) => {
+            {sortedQuestions.map((question) => {
               return (
                 <Col sm="20" key={questions[question].id}>
                   {unAnsweredQuestions &&
@@ -105,7 +106,7 @@ class Home extends Component {
                                   <CardTitle>
                                     <strong>Would you rather?</strong>
                                   </CardTitle>
-                                  <CardText>Would you rather?</CardText>
+                                  <CardText>..{questions[question].optionOne.text}..</CardText>
                                   <Button style={{ width: "100px" }}>
                                     <Link
                                       to={`/questions/${questions[question].id}`}
@@ -191,6 +192,8 @@ class Home extends Component {
 }
 
 function mapStateToProps({ authedUser, users, questions }) {
+  // .sort((a,b) => b.timestamp - a.timestamp) Object.assign({}, ['a','b','c'])
+// Object.keys(questions).sort((a,b) => questions[b].timestamp - questions[a].timestamp),
   return {
     authedUser: authedUser,
     users: users,

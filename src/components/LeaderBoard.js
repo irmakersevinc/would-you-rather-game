@@ -11,13 +11,20 @@ import {
 } from "reactstrap";
 class LeaderBoard extends Component {
   render() {
+    //Object.keys(questions).sort((a,b) => questions[b].timestamp - questions[a].timestamp)
+
+    const sortedUser =  Object.keys(this.props.users).sort((a,b) => 
+    (Object.keys(this.props.users[b].answers).length + this.props.users[b].questions.length) - 
+    (Object.keys(this.props.users[a].answers).length + this.props.users[a].questions.length))
+
+    console.log(sortedUser)
     return (
       <div>
         <Container>
           {this.props.users.length !== 0 &&
-            Object.keys(this.props.users).map((user) => {
+            sortedUser.map((user) => {
               return (
-                <Card>
+                <Card key={user}>
                   <CardHeader>{this.props.users[user].name}</CardHeader>
                   <div>
                     <CardBody>
@@ -26,7 +33,7 @@ class LeaderBoard extends Component {
                           direction: "row",
                         }}
                       >
-                        <Col sm="3">
+                        <Col sm="4">
                           <img
                             src={this.props.users[user].avatarURL}
                             alt={`Avatar of ${this.props.users[user].name}`}
@@ -34,7 +41,7 @@ class LeaderBoard extends Component {
                             width="120px"
                           />
                         </Col>
-                        <Col sm="6">
+                        <Col sm="5">
                           <p>
                             Answered questions{" "}
                             {Object.keys(this.props.users[user].answers).length}{" "}

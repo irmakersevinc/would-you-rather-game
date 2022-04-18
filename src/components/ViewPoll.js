@@ -17,6 +17,7 @@ import {
 } from "reactstrap";
 import { handleAddAnswer } from "../actions/questions";
 import { Link, withRouter } from "react-router-dom";
+import PageNotFound from "./PageNotFound"
 class ViewPoll extends Component {
   state = {
     answerText: "",
@@ -39,13 +40,13 @@ class ViewPoll extends Component {
       () => console.log(this.state.answerText)
     );
   };
+  
   handleAnswer = (e) => {
     e.preventDefault();
     if (this.state.answerText === "") {
       alert("Please choose one of the options!");
       return;
     }
-    console.log(this.state.answerText);
     const { authedUser, dispatch, question_id } = this.props;
     const { answerText } = this.state;
 
@@ -60,22 +61,33 @@ class ViewPoll extends Component {
   };
   render() {
     const { questions, users, authedUser, question_id } = this.props;
+    //const isQuestionIdValid = 
+    console.log(questions);
+    console.log(question_id);
+
     const userOfQuestion = Object.keys(questions).filter(
-      (question) => question == question_id
+      (question) =>  question === question_id 
     );
-    const progressOptionOne = questions[question_id].optionOne.votes.length;
-    const progressOptionTwo = questions[question_id].optionTwo.votes.length;
+
+    //console.log(questions.question_id);
+
+    const progressOptionOne = userOfQuestion.length !== 0 ? questions[question_id].optionOne.votes.length : 1;
+    const progressOptionTwo = userOfQuestion.length !== 0 ? questions[question_id].optionTwo.votes.length : 1;
     const totalVote = progressOptionOne + progressOptionTwo;
     const percentageOfOptionOne = (100 * progressOptionOne) / totalVote;
     const percentageOfOptionTwo = (100 * progressOptionTwo) / totalVote;
 
     return (
       <div>
-        <Container>
+        {
+          userOfQuestion.length === 0 ? 
+          <PageNotFound />
+          :
+          <Container>
           {question_id &&
           !Object.keys(users[authedUser].answers).includes(question_id) ? (
             <Card>
-              <CardHeader>{questions[userOfQuestion].author} asks: </CardHeader>
+              <CardHeader>{questions[question_id].author} asks: </CardHeader>
               <div>
                 <CardBody>
                   <Row
@@ -85,9 +97,9 @@ class ViewPoll extends Component {
                   >
                     <Col sm="5">
                       <img
-                        src={users[questions[userOfQuestion].author].avatarURL}
+                        src={users[questions[question_id].author].avatarURL}
                         alt={`Avatar of ${
-                          users[questions[userOfQuestion].author].name
+                          users[questions[question_id].author].name
                         }`}
                         className="avatar"
                         width="120px"
@@ -111,7 +123,7 @@ class ViewPoll extends Component {
                               checked={this.state.answerText === "optionOne"}
                               onChange={this.handleRadioButton}
                             />{" "}
-                            {questions[userOfQuestion].optionOne.text}{" "}
+                            {questions[question_id].optionOne.text}{" "}
                           </Label>
 
                           <Label check>
@@ -126,7 +138,7 @@ class ViewPoll extends Component {
                               checked={this.state.answerText === "optionTwo"}
                               onChange={this.handleRadioButton}
                             />{" "}
-                            {questions[userOfQuestion].optionTwo.text}{" "}
+                            {questions[question_id].optionTwo.text}{" "}
                           </Label>
                         </FormGroup>
                         <Button type="submit">Submit</Button>
@@ -150,7 +162,7 @@ class ViewPoll extends Component {
                       <img
                         src={users[questions[question_id].author].avatarURL}
                         alt={`Avatar of ${
-                          users[questions[userOfQuestion].author].name
+                          users[questions[question_id].author].name
                         }`}
                         className="avatar"
                         width="120px"
@@ -205,6 +217,8 @@ class ViewPoll extends Component {
             </Card>
           )}
         </Container>
+        }
+
       </div>
     );
   }
@@ -212,12 +226,13 @@ class ViewPoll extends Component {
 
 function mapStateToProps({ questions, users, authedUser }, ownProps) {
   const { question_id } = ownProps.match.params;
-
+// .sort((a,b) => b.timestamp - a.timestamp) Object.assign({}, ['a','b','c'])
+// Object.keys(questions).sort((a,b) => questions[b].timestamp - questions[a].timestamp),
   return {
     question_id: question_id,
     authedUser: authedUser,
     users: users,
-    questions: questions,
+    questions: questions
   };
 }
 export default withRouter(connect(mapStateToProps)(ViewPoll));

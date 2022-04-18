@@ -6,7 +6,7 @@ function PageNotFound  () {
         <div>
             <Card>
                 <CardHeader>
-                    <p>Page Not Found</p>
+                    <p>404 ! Page Not Found</p>
                 </CardHeader>
             </Card>
         </div>
