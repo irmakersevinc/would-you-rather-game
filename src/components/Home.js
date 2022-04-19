@@ -133,7 +133,7 @@ class Home extends Component {
             }
           >
             <hr />
-            {Object.keys(questions).map((question) => {
+            {sortedQuestions.map((question) => {
               return (
                 <Col sm="20" key={questions[question].id}>
                   {answeredQuestions &&
@@ -166,7 +166,7 @@ class Home extends Component {
                                   <CardTitle>
                                     <strong>Would you rather?</strong>
                                   </CardTitle>
-                                  <CardText>Would you rather?</CardText>
+                                  <CardText>..{questions[question].optionOne.text}..</CardText>
                                   <Button style={{ width: "100px" }}>
                                     <Link
                                       to={`/questions/${questions[question].id}`}
