@@ -5,34 +5,13 @@ In the "Would You Rather?" Project, we'll build a web app that lets a user play 
 
 In our app, users will be able to answer questions, see which questions they haven’t answered, see how other people have voted, post questions, and see the ranking of users on the leaderboard.
 
-## Getting Started with Create React App
+## Installation & Setup
+You should have npm and node installed in your machine, to confirm type node --version in terminal. Below are steps to setup project in your system :
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Clone the master branch of this repository
+Open Terminal in project folder (containing package.json file)
+Run npm install and wait for all dependencies to download
+Finally run npm start this will automatically launch application in default browser at http://localhost:3000
 
 ## Application Pages
 In this application we have 6 different pages. These are: 
